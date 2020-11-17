@@ -1,5 +1,6 @@
 package br.com.cpcx.web2.pedro.controller;
 
+import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ETipoPessoa;
 import br.com.cpcx.web2.pedro.domain.pojo.PessoaPOJO;
 import br.com.cpcx.web2.pedro.service.PessoaService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -31,20 +33,16 @@ public class PessoaController {
     @GetMapping
     @ResponseBody
 //    @IsUsuarioAutorizado
-    public ResponseEntity<?> buscarTodos( @RequestHeader("login") String login,
-                                          @RequestHeader("senha") String senha) {
-        validarUsuario.isLoginESenhaValidos(login, senha);
-        return new ResponseEntity(pessoaService.buscarTodos(), HttpStatus.OK);
-    }
+    public ResponseEntity<?> buscarTodosPorFiltro(
+            @RequestParam(name = "tipo", required = false) ETipoPessoa tipo,
+            @RequestParam(name = "idResponsavel", required = false) Long idResponsavel,
+            @RequestParam(name = "nomeResponsavel", required = false) String nomeResponsavel,
+            @RequestParam(name = "situacao", required = false) ESituacaoPessoa situacao,
 
-    @GetMapping("/tipo")
-    @ResponseBody
-//    @IsUsuarioAutorizado
-    public ResponseEntity<?> buscarTodosPorTipo( ETipoPessoa tipo,
                                                  @RequestHeader("login") String login,
                                                  @RequestHeader("senha") String senha) {
         validarUsuario.isLoginESenhaValidos(login, senha);
-        return new ResponseEntity(pessoaService.buscarTodosPorTipo(tipo), HttpStatus.OK);
+        return new ResponseEntity(pessoaService.buscarTodosPorFiltro(situacao, idResponsavel, nomeResponsavel, tipo), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

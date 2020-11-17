@@ -1,6 +1,8 @@
 package br.com.cpcx.web2.pedro.service;
 
+import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ETipoPessoa;
+import br.com.cpcx.web2.pedro.domain.filtro.BuscarPessoaPorFiltro;
 import br.com.cpcx.web2.pedro.domain.pojo.PessoaPOJO;
 import br.com.cpcx.web2.pedro.domain.usecase.pessoa.ExcluirPessoaUseCase;
 import br.com.cpcx.web2.pedro.domain.usecase.pessoa.SalvarPessoaUseCase;
@@ -16,6 +18,9 @@ public class PessoaService {
 
     @Autowired
     private SalvarPessoaUseCase salvarPessoaUseCase;
+
+    @Autowired
+    private BuscarPessoaPorFiltro filtroPessoa;
 
     @Autowired
     private ExcluirPessoaUseCase excluirPessoaUseCase;
@@ -40,7 +45,7 @@ public class PessoaService {
         excluirPessoaUseCase.executar(id);
     }
 
-    public Object buscarTodosPorTipo(ETipoPessoa tipo) {
-        return pessoaRepository.findAllByTipo(tipo);
+    public Object buscarTodosPorFiltro(ESituacaoPessoa situacao, Long idResponsavel, String nomeResponsavel, ETipoPessoa tipo) {
+        return filtroPessoa.filtrar(situacao, idResponsavel, nomeResponsavel, tipo);
     }
 }

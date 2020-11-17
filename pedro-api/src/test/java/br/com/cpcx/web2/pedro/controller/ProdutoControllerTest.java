@@ -1,7 +1,9 @@
 package br.com.cpcx.web2.pedro.controller;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class ProdutoControllerTest {
 
     @Test

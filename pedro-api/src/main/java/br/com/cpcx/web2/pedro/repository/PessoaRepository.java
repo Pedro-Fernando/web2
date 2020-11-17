@@ -18,4 +18,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     boolean existsByIdResponsavel(Long idPessoaARemover);
 
     List<Pessoa> findAllByTipo(ETipoPessoa tipo);
+
+    Pessoa findByNome(String nomeResponsavel);
 }
