@@ -1,4 +1,4 @@
-package br.com.cpcx.web2.pedro.domain.filtro;
+package br.com.cpcx.web2.pedro.domain.filtro.pessoa;
 
 import br.com.cpcx.web2.pedro.domain.entity.Pessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static br.com.cpcx.web2.pedro.utils.TipoPessoaUtils.isPessoaFisica;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -54,6 +52,5 @@ public class BuscarPessoaPorFiltro {
                 })
                 .collect(Collectors.toList());
     }
-
 
 }

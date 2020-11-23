@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/api/produto")
@@ -32,15 +35,22 @@ public class ProdutoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
     @GetMapping
     @ResponseBody
 //    @IsUsuarioAutorizado
-    public ResponseEntity<?> buscarTodos(@RequestHeader("login") String login,
-                                         @RequestHeader("senha") String senha) {
+    public ResponseEntity<?> buscarTodosPorFiltro(
+            @RequestParam(name = "descricao", required = false) String descricao,
+            @RequestParam(name = "precoMaximo", required = false) BigDecimal precoMaximo,
+            @RequestParam(name = "precoMinimo", required = false) BigDecimal precoMinimo,
+
+            @RequestHeader("login") String login,
+            @RequestHeader("senha") String senha) {
         validarUsuario.isLoginESenhaValidos(login, senha);
         Usuario usuario = usuarioRepository.findByLoginAndSenha(login, senha);
-        return new ResponseEntity(produtoService.buscarTodos(usuario.getPessoa().getId()), HttpStatus.OK);
+        return new ResponseEntity(produtoService.buscarTodosPorFiltro(descricao, precoMaximo, precoMinimo, usuario), HttpStatus.OK);
     }
+
 
     @GetMapping("/{id}")
     @ResponseBody

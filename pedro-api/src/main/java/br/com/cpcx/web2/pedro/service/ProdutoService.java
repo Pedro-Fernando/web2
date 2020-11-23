@@ -1,12 +1,16 @@
 package br.com.cpcx.web2.pedro.service;
 
 import br.com.cpcx.web2.pedro.domain.entity.Produto;
+import br.com.cpcx.web2.pedro.domain.entity.Usuario;
+import br.com.cpcx.web2.pedro.domain.filtro.produto.BuscarProdutoPorFiltro;
 import br.com.cpcx.web2.pedro.domain.pojo.ProdutoPOJO;
 import br.com.cpcx.web2.pedro.domain.usecase.produto.BuscarProdutoPorIdConformeIdadeUseCase;
 import br.com.cpcx.web2.pedro.domain.usecase.produto.BuscarTodosProdutosConformeIdadeUseCase;
 import br.com.cpcx.web2.pedro.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class ProdutoService {
@@ -19,9 +23,8 @@ public class ProdutoService {
     @Autowired
     private BuscarProdutoPorIdConformeIdadeUseCase buscarProdutoPorIdConformeIdadeUseCase;
 
-    public Object buscarTodos(Long idPessoa) {
-        return buscarTodosProdutosConformeIdadeUseCase.executar(idPessoa);
-    }
+    @Autowired
+    private BuscarProdutoPorFiltro filtroProduto;
 
     public Object buscarPorId(Long idProduto, Long idPessoa) {
         return buscarProdutoPorIdConformeIdadeUseCase.executar(idProduto, idPessoa) ;
@@ -41,4 +44,7 @@ public class ProdutoService {
         produtoRepository.deleteById(id);
     }
 
+    public Object buscarTodosPorFiltro(String descricao, BigDecimal precoMaximo, BigDecimal precoMinimo, Usuario usuario) {
+        return filtroProduto.filtrar(descricao, precoMaximo, precoMinimo, usuario);
+    }
 }

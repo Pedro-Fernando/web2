@@ -2,7 +2,7 @@ package br.com.cpcx.web2.pedro.service;
 
 import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ETipoPessoa;
-import br.com.cpcx.web2.pedro.domain.filtro.BuscarPessoaPorFiltro;
+import br.com.cpcx.web2.pedro.domain.filtro.pessoa.BuscarPessoaPorFiltro;
 import br.com.cpcx.web2.pedro.domain.pojo.PessoaPOJO;
 import br.com.cpcx.web2.pedro.domain.usecase.pessoa.ExcluirPessoaUseCase;
 import br.com.cpcx.web2.pedro.domain.usecase.pessoa.SalvarPessoaUseCase;
@@ -24,10 +24,6 @@ public class PessoaService {
 
     @Autowired
     private ExcluirPessoaUseCase excluirPessoaUseCase;
-
-    public Object buscarTodos() {
-        return pessoaRepository.findAll();
-    }
 
     public Object buscarPorId(Long id) {
         return pessoaRepository.findById(id);
