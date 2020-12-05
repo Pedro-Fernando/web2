@@ -1,6 +1,7 @@
 package br.com.cpcx.web2.pedro.controller;
 
 import br.com.cpcx.web2.pedro.domain.pojo.UsuarioPOJO;
+import br.com.cpcx.web2.pedro.repository.UsuarioRepository;
 import br.com.cpcx.web2.pedro.service.UsuarioService;
 import br.com.cpcx.web2.pedro.utils.ValidarUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+
 @Controller
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -27,9 +30,11 @@ public class UsuarioController {
     @Autowired
     private ValidarUsuario validarUsuario;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @GetMapping
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> buscarTodos(@RequestHeader("login") String login,
                                          @RequestHeader("senha") String senha) {
 
@@ -37,9 +42,16 @@ public class UsuarioController {
         return new ResponseEntity(usuarioService.buscarTodos(), HttpStatus.OK);
     }
 
+    @GetMapping("/autenticar")
+    @ResponseBody
+    public Object isUsuarioAutorizado(@RequestHeader("login") String login, @RequestHeader("senha") String senha) {
+        HashMap<String, Boolean> autenticacao = new HashMap<>();
+        autenticacao.put("isUsuarioAutenticado", usuarioRepository.existsUsuarioByLoginAndSenha(login,senha));
+        return autenticacao;
+    }
+
     @GetMapping("/{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> buscarPorId(@PathVariable("id") Long id,
                                          @RequestHeader("login") String login,
                                          @RequestHeader("senha") String senha) {
@@ -50,7 +62,6 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> salvar(@RequestBody UsuarioPOJO body,
                                     @RequestHeader("login") String login,
                                     @RequestHeader("senha") String senha) {
@@ -61,7 +72,6 @@ public class UsuarioController {
 
     @PutMapping("{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> alterar(@PathVariable("id") Long id,
                                      @RequestBody UsuarioPOJO body,
                                      @RequestHeader("login") String login,
@@ -73,7 +83,6 @@ public class UsuarioController {
 
     @DeleteMapping("{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado(login = "login", senha = "senha")
     public ResponseEntity<?> deletar(@PathVariable("id") Long id,
                                      @RequestHeader("login") String login,
                                      @RequestHeader("senha") String senha) {

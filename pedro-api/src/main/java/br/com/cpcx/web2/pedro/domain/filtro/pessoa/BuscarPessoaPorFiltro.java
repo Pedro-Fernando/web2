@@ -20,6 +20,8 @@ public class BuscarPessoaPorFiltro {
 
     public List<Pessoa> filtrar(ESituacaoPessoa situacao, Long idResponsavel, String nomeResponsavel, ETipoPessoa tipo) {
 
+//TODO REVER OS FILTROS
+
         Pessoa responsavel = pessoaRepository.findByNome(nomeResponsavel);
 
         return pessoaRepository.findAll().stream()

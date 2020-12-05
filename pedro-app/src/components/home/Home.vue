@@ -1,9 +1,17 @@
 <template>
-  <div id="app">
-    <h1 class="cor">{{ titulo }}</h1>
-    <Requisicao></Requisicao>
-  </div>
+  <section>
+    <h1>Home</h1>
+  </section>
 </template>
 
-<script src="./controller.js"></script>
-<style scoped src="./home-estilo.css"></style>
+<script>
+export default {
+  name: "Home",
+  data() {
+    return {
+      titulo: null
+    }
+  }
+}
+</script>
+<style scoped></style>
