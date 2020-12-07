@@ -1,5 +1,6 @@
 package br.com.cpcx.web2.pedro.utils;
 
+import br.com.cpcx.web2.pedro.domain.entity.Pessoa;
 import br.com.cpcx.web2.pedro.domain.pojo.PessoaPOJO;
 import br.com.cpcx.web2.pedro.domain.entity.PessoaFisica;
 import br.com.cpcx.web2.pedro.domain.entity.PessoaJuridica;
@@ -8,6 +9,10 @@ import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
 public class SituacaoPessoaUtils {
 
     private SituacaoPessoaUtils(){
+    }
+
+    public static boolean isAtivo(Pessoa pessoa){
+        return ESituacaoPessoa.ATIVO.equals(pessoa.getSituacao());
     }
 
     public static boolean isAtivo(PessoaPOJO pessoaPOJO){

@@ -37,7 +37,7 @@ public class BuscarProdutoPorFiltro {
         return produtoRepository.findAll().stream()
                 .filter(produto -> {
                     if (nonNull(produto.getId()) && nonNull(descricao)) {
-                        return produto.getDescricao().equals(descricao);
+                        return isNull(produto.getDescricao()) ?Boolean.FALSE : produto.getDescricao().equals(descricao);
                     }else if (nonNull(produto.getId())){
                         return Boolean.TRUE;
                     }

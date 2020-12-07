@@ -4,12 +4,14 @@ import br.com.cpcx.web2.pedro.domain.entity.Pessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ESituacaoPessoa;
 import br.com.cpcx.web2.pedro.domain.enumeration.ETipoPessoa;
 import br.com.cpcx.web2.pedro.repository.PessoaRepository;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -20,28 +22,27 @@ public class BuscarPessoaPorFiltro {
 
     public List<Pessoa> filtrar(ESituacaoPessoa situacao, Long idResponsavel, String nomeResponsavel, ETipoPessoa tipo) {
 
-//TODO REVER OS FILTROS
-
         Pessoa responsavel = pessoaRepository.findByNome(nomeResponsavel);
 
         return pessoaRepository.findAll().stream()
+
                 .filter(pessoa -> {
-                    if (nonNull(tipo)) {
-                        return pessoa.getTipo().equals(tipo);
+                    if (nonNull(idResponsavel)) {
+                        return isNull(pessoa.getIdResponsavel()) ?  Boolean.FALSE : pessoa.getIdResponsavel().equals(idResponsavel);
                     }
                     return Boolean.TRUE;
                 })
 
                 .filter(pessoa -> {
-                    if (nonNull(idResponsavel)) {
-                        return pessoa.getIdResponsavel().equals(idResponsavel);
+                    if (nonNull(tipo)) {
+                        return isNull(pessoa.getTipo()) ?  Boolean.FALSE :  pessoa.getTipo().equals(tipo);
                     }
                     return Boolean.TRUE;
                 })
 
                 .filter(pessoa -> {
                     if (nonNull(situacao)) {
-                        return pessoa.getSituacao().equals(situacao);
+                        return isNull(pessoa.getSituacao()) ?  Boolean.FALSE : pessoa.getSituacao().equals(situacao);
                     }
                     return Boolean.TRUE;
                 })

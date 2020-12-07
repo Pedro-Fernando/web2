@@ -32,7 +32,6 @@ public class PessoaController {
 
     @GetMapping
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> buscarTodosPorFiltro(
             @RequestParam(name = "tipo", required = false) ETipoPessoa tipo,
             @RequestParam(name = "idResponsavel", required = false) Long idResponsavel,
@@ -47,7 +46,6 @@ public class PessoaController {
 
     @GetMapping("/{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> buscarPorId(@PathVariable("id") Long id,
                                          @RequestHeader("login") String login,
                                          @RequestHeader("senha") String senha) {
@@ -55,9 +53,17 @@ public class PessoaController {
         return new ResponseEntity(pessoaService.buscarPorId(id), HttpStatus.OK);
     }
 
+    @GetMapping("/maiorIdade")
+    @ResponseBody
+    public ResponseEntity<?> buscarPessoaMaiorIdadeAtiva(
+            @RequestHeader("login") String login,
+            @RequestHeader("senha") String senha) {
+        validarUsuario.isLoginESenhaValidos(login, senha);
+        return new ResponseEntity(pessoaService.buscarPessoaMaiorIdade(), HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> salvar(@RequestBody PessoaPOJO body,
                                     @RequestHeader("login") String login,
                                     @RequestHeader("senha") String senha) {
@@ -67,7 +73,6 @@ public class PessoaController {
 
     @PutMapping("{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> alterar(@PathVariable("id") Long id,
                                      @RequestBody PessoaPOJO body,
                                      @RequestHeader("login") String login,
@@ -78,7 +83,6 @@ public class PessoaController {
 
     @DeleteMapping("{id}")
     @ResponseBody
-//    @IsUsuarioAutorizado
     public ResponseEntity<?> deletar(@PathVariable("id") Long id,
                                      @RequestHeader("login") String login,
                                      @RequestHeader("senha") String senha) {
